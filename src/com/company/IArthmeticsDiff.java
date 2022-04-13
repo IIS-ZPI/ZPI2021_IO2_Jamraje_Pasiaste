@@ -1,6 +1,7 @@
 package com.company;
 
-// Interfejs do odejmowania
+
+//diff function
 public interface IArthmeticsDiff {
     double Difference(double A, double B);
 }
