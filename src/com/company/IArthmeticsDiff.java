@@ -1,9 +1,6 @@
 package com.company;
 
-/**
- * Klasa implementująca interfejs IArthmeticsDiff,
- * zawierająca metodę liczącą różnicę dwóch liczb zmiennoprzecinkowych
- */
+// Interfejs do odejmowania
 public interface IArthmeticsDiff {
     double Difference(double A, double B);
 }

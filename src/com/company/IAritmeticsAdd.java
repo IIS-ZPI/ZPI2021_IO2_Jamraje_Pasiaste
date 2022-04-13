@@ -1,8 +1,6 @@
 package com.company;
 
-/**
- * Interfejs zawierający metodę dodającą dwie liczby zmiennoprzecinkowe
- */
+//Interfejs od dodawania
 public interface IAritmeticsAdd {
 	Double Addition(double A, double B);
 }
