@@ -1,8 +1,5 @@
 package com.company;
 
-/**
- * Klasa implementująca interfejs dodający
- */
 public class AritmeticAdd implements IAritmeticsAdd {
 
 	@Override
