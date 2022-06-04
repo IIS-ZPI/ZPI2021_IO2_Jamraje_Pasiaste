@@ -1,4 +1,6 @@
-package com.company;
+package com.company.interfaces.implementations;
+
+import com.company.interfaces.IAritmeticsAdd;
 
 public class AritmeticAdd implements IAritmeticsAdd {
 
