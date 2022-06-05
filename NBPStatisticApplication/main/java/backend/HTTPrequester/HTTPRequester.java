@@ -8,11 +8,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class HTTPRequester {
-	public URL getUrlFromString(String address) throws MalformedURLException {
-		return new URL(address);
+	public static JsonResponse getJsonResponseFromURL(String address) throws IOException {
+		return new JdkRequest(getUrlFromString(address)).fetch().as(JsonResponse.class);
 	}
 
-	public JsonResponse getJsonResponseFromURL(URL url) throws IOException {
-		return new JdkRequest(url).fetch().as(JsonResponse.class);
+	public static JsonResponse getJsonResponseFromURL(URL address) throws IOException {
+		return new JdkRequest(address).fetch().as(JsonResponse.class);
+	}
+
+	public static URL getUrlFromString(String address) throws MalformedURLException {
+		return new URL(address);
 	}
 }

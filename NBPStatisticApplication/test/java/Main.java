@@ -1,12 +1,16 @@
-import com.jcabi.http.Request;
-import com.jcabi.http.request.JdkRequest;
+import backend.JsonParser.JsonParser;
+import com.jcabi.http.response.JsonResponse;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+
+import static backend.HTTPrequester.HTTPRequester.getJsonResponseFromURL;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		System.out.println(new String(new JdkRequest(new URL("http://api.nbp.pl/api/exchangerates/tables/A")).fetch().binary()));
+		//JsonResponse s;
+		//s = getJsonResponseFromURL("http://api.nbp.pl/api/exchangerates/tables/A?format=json");
+		//System.out.println(s.json().readArray().getJsonObject(0).getJsonArray("rates").getJsonObject(0));
+		JsonParser j = new JsonParser();
+		System.out.println(j.getAvailableCurrenciesList());
 	}
 }
