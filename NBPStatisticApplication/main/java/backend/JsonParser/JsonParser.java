@@ -32,9 +32,9 @@ public class JsonParser {
 		return response.getJsonObject(index);
 	}
 
-//    public JsonArray getJsonArray(JsonResponse response) {
-//        return response.json().readArray();
-//    }
+	public JsonArray getJsonArray(JsonResponse response) {
+		return response.json().readArray();
+	}
 
 	public List<Currency> getAvailableCurrenciesList() throws IOException {
 		ArrayList<Currency> currencyList = new ArrayList<>();
@@ -93,13 +93,14 @@ public class JsonParser {
 	private List<Currency> getListFromJsonArray(Currency currency, JsonArray ratesArray) {
 		int i = 0;
 		List<Currency> currencyList = new ArrayList<>();
-		Currency currencyToAdd;
 		try {
 			while (true) {
-				currencyToAdd = new Currency(currency);
-				currencyToAdd.setValue(String.valueOf(ratesArray.getJsonObject(i).getJsonNumber("mid")));
-				currencyToAdd.setDate(String.valueOf(ratesArray.getJsonObject(i++).getJsonString("effectiveDate")));
-				currencyList.add(currencyToAdd);
+				currencyList.add(
+						currency.toBuilder()
+								.value(ratesArray.getJsonObject(i).getJsonNumber("mid").toString())
+								.date(ratesArray.getJsonObject(i++).getJsonString("effectiveDate").getString())
+								.build()
+				);
 			}
 		} catch (IndexOutOfBoundsException e) {
 			//exception jest warunkiem wyjscia z petli
@@ -112,12 +113,11 @@ public class JsonParser {
 		String addressToBeCalled = "http://api.nbp.pl/api/exchangerates/rates/" + currency.getTable() + "/" + currency.getCode() + "/" + date + "/?format=json";
 		JsonResponse jsonResponse = HTTPRequester.getJsonResponseFromURL(addressToBeCalled);
 		JsonArray ratesArray = jsonResponse.json().readObject().getJsonArray("rates");
-		String value = String.valueOf(ratesArray.getJsonObject(0).getJsonNumber("mid"));
-		Currency currencyToBeReturned = new Currency(currency);
-		currencyToBeReturned.setDate(date);
-		currencyToBeReturned.setValue(value);
-
-		return currencyToBeReturned;
+		String value = ratesArray.getJsonObject(0).getJsonNumber("mid").toString();
+		return currency.toBuilder()
+				.date(date)
+				.value(value)
+				.build();
 	}
 
 }
