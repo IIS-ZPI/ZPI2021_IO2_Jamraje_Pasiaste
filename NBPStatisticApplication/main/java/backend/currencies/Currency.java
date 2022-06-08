@@ -12,4 +12,11 @@ public class Currency {
 	private String value;
 	private String date;
 
+	public Currency(Currency currency) {
+		table = currency.getTable();
+		name = currency.getName();
+		code = currency.getCode();
+		value = currency.getValue();
+		date = currency.getDate();
+	}
 }
