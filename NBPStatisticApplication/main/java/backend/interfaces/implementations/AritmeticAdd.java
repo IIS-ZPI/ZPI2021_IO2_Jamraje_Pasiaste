@@ -1,6 +1,6 @@
-package com.company.interfaces.implementations;
+package backend.interfaces.implementations;
 
-import com.company.interfaces.IAritmeticsAdd;
+import backend.interfaces.IAritmeticsAdd;
 
 public class AritmeticAdd implements IAritmeticsAdd {
 
