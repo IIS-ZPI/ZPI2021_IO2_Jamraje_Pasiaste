@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="754.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projekt.Tab1">
+   <children>
+      <LineChart layoutX="20.0" layoutY="340.0" prefHeight="400.0" prefWidth="500.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <ComboBox layoutX="26.0" layoutY="56.0" prefWidth="150.0" />
+      <Label layoutX="26.0" layoutY="94.0" text="Mediana" />
+      <Label layoutX="26.0" layoutY="120.0" text="Dominanta" />
+      <Label layoutX="26.0" layoutY="148.0" text="Odchylenie standardowe" />
+      <Label layoutX="26.0" layoutY="177.0" text="Współczynnik zmienności" />
+      <Label layoutX="203.0" layoutY="94.0" text="Label" />
+      <Label layoutX="203.0" layoutY="120.0" text="Label" />
+      <Label layoutX="203.0" layoutY="148.0" text="Label" />
+      <Label layoutX="203.0" layoutY="177.0" text="Label" />
+      <ComboBox layoutX="320.0" layoutY="56.0" prefWidth="150.0" />
+      <Label layoutX="26.0" layoutY="26.0" text="Waluta" />
+      <Label layoutX="320.0" layoutY="26.0" text="Okres czasu" />
+   </children>
+</AnchorPane>
