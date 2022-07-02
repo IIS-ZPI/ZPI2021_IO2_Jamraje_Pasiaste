@@ -103,8 +103,8 @@ public class JsonParser {
 						currency.toBuilder()
 								.value(ratesArray.getJsonObject(i).getJsonNumber("mid").toString())
 								.valueAsDouble(Double.valueOf(ratesArray.getJsonObject(i).getJsonNumber("mid").toString()))
-								.date(ratesArray.getJsonObject(i++).getJsonString("effectiveDate").getString())
 								.dateAsDateObject(new SimpleDateFormat("yyyy-MM-dd").parse(ratesArray.getJsonObject(i).getJsonString("effectiveDate").getString()))
+								.date(ratesArray.getJsonObject(i++).getJsonString("effectiveDate").getString())
 								.build()
 				);
 			}
