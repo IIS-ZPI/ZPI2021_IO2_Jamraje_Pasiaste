@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.Tab1">
+    <children>
+        <LineChart fx:id="currencyChart" layoutX="11.0" layoutY="307.0" prefHeight="400.0" prefWidth="500.0">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </LineChart>
+        <ComboBox fx:id="currencyList" layoutX="26.0" layoutY="56.0" prefWidth="150.0" />
+        <Label layoutX="26.0" layoutY="207.0" text="Mediana" />
+        <Label layoutX="26.0" layoutY="233.0" text="Dominanta" />
+        <Label layoutX="26.0" layoutY="261.0" text="Odchylenie standardowe" />
+        <Label layoutX="26.0" layoutY="290.0" text="Współczynnik zmienności" />
+        <Label fx:id="mediana" layoutX="203.0" layoutY="207.0" />
+        <Label fx:id="dominanta" layoutX="203.0" layoutY="233.0" />
+        <Label fx:id="odchylenie" layoutX="203.0" layoutY="261.0" />
+        <Label fx:id="zmiennosci" layoutX="203.0" layoutY="290.0" />
+        <ComboBox fx:id="period" layoutX="320.0" layoutY="56.0" prefWidth="150.0" />
+        <Label layoutX="26.0" layoutY="26.0" text="Waluta" />
+        <Label layoutX="320.0" layoutY="26.0" text="Okres czasu" />
+        <Button fx:id="showDataButton" layoutX="198.0" layoutY="103.0" mnemonicParsing="false" onMouseClicked="#showData" prefHeight="68.0" prefWidth="125.0" text="Pokaż dane" />
+    </children>
+</AnchorPane>
