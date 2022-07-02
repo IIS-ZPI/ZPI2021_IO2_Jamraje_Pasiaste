@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768" prefWidth="1360.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.HelloController">
+   <children>
+      <TabPane fx:id="tp" prefHeight="768.0" prefWidth="1360.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab fx:id="first" text="Sesje">
+          </Tab>
+          <Tab fx:id="second" text="Porównanie walut">
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
