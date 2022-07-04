@@ -13,6 +13,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +53,18 @@ public class Tab2Controller {
 		String currentName2 = (String) currency2.getSelectionModel().getSelectedItem();
 		Currency current1 = getSelectedCurrency(currentName1);
 		Currency current2 = getSelectedCurrency(currentName2);
-		List<Currency> c1 = dm.getForPeriod(current1, "2022-06-01", "2022-07-02");
-		List<Currency> c2 = dm.getForPeriod(current2, "2022-06-01", "2022-07-02");
+
+		// Getting current date
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDateTime now = LocalDateTime.now();
+
+		// Getting time frame
+		LocalDate tempDate = LocalDate.parse(dtf.format(now));
+		tempDate = tempDate.minusMonths(1);
+		String startDate = tempDate.toString();
+
+		List<Currency> c1 = dm.getForPeriod(current1, startDate, dtf.format(now));
+		List<Currency> c2 = dm.getForPeriod(current2, startDate, dtf.format(now));
 		fillTheChart(c1,c2);
 	}
 
@@ -60,8 +73,18 @@ public class Tab2Controller {
 		String currentName2 = (String) currency2.getSelectionModel().getSelectedItem();
 		Currency current1 = getSelectedCurrency(currentName1);
 		Currency current2 = getSelectedCurrency(currentName2);
-		List<Currency> c1 = dm.getForPeriod(current1, "2022-06-01", "2022-07-02");
-		List<Currency> c2 = dm.getForPeriod(current2, "2022-06-01", "2022-07-02");
+
+		// Getting current date
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDateTime now = LocalDateTime.now();
+
+		// Getting time frame
+		LocalDate tempDate = LocalDate.parse(dtf.format(now));
+		tempDate = tempDate.minusMonths(3);
+		String startDate = tempDate.toString();
+
+		List<Currency> c1 = dm.getForPeriod(current1, startDate, dtf.format(now));
+		List<Currency> c2 = dm.getForPeriod(current2, startDate, dtf.format(now));
 		fillTheChart(c1,c2);
 	}
 
