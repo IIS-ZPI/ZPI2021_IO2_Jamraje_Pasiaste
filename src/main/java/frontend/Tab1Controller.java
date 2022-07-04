@@ -14,6 +14,9 @@ import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,7 +72,38 @@ public class Tab1Controller {
 				break;
 			}
 		}
-		List<Currency> c = dm.getForPeriod(current, "2022-06-01", "2022-07-02");
+
+		// Getting current date
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDateTime now = LocalDateTime.now();
+
+		// Getting time frame
+		String timeFrame = (String) period.getSelectionModel().getSelectedItem();
+		String startDate;
+		LocalDate tempDate = LocalDate.parse(dtf.format(now));
+		switch(timeFrame){
+			case "Tydzień":
+				tempDate = tempDate.minusDays(7);
+				break;
+			case "2 tygodnie":
+				tempDate = tempDate.minusWeeks(2);
+				break;
+			case "Miesiąc":
+				tempDate = tempDate.minusMonths(1);
+				break;
+			case "Kwartał":
+				tempDate = tempDate.minusMonths(3);
+				break;
+			case "6 miesięcy":
+				tempDate = tempDate.minusMonths(6);
+				break;
+			case "Rok":
+				tempDate = tempDate.minusYears(1);
+				break;
+		}
+		startDate = tempDate.toString();
+
+		List<Currency> c = dm.getForPeriod(current, startDate, dtf.format(now));
 		setMediana(c);
 		setDominanta(c);
 		setOdchylenie(c);
