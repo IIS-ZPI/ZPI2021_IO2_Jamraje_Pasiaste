@@ -14,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,11 +68,13 @@ public class Tab1Controller {
 				break;
 			}
 		}
-
+		String possibleDate = findLastPossibleDate();
+		if (possibleDate.equals("")) {
+			possibleDate = cl.get(0).getDate();
+		}
 		// Getting current date
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDateTime now = LocalDateTime.now();
-
+		LocalDate now = LocalDate.parse(possibleDate, dtf);
 		// Getting time frame
 		String timeFrame = (String) period.getSelectionModel().getSelectedItem();
 		String startDate;
@@ -106,6 +107,13 @@ public class Tab1Controller {
 		setOdchylenie(c);
 		setZmiennosci(c);
 		fillTheChart(c);
+	}
+
+	private String findLastPossibleDate() {
+		for (Currency c : cl)
+			if (c.getCode().equals("USD"))
+				return c.getDate();
+		return "";
 	}
 
 	private void fillTheChart(List<Currency> c) {
@@ -184,9 +192,9 @@ public class Tab1Controller {
 			medianList.add(curr.getValueAsDouble());
 		Collections.sort(medianList);
 		try {
-			if(medianList.size() == 1)
+			if (medianList.size() == 1)
 				mediana.setText(String.valueOf(medianList.get(0)));
-			else{
+			else {
 				Double middle = (medianList.get(medianList.size() / 2) + medianList.get(medianList.size() / 2 - 1)) / 2;
 				mediana.setText(String.valueOf(middle));
 			}
