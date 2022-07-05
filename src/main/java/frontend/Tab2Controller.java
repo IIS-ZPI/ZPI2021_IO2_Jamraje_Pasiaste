@@ -56,9 +56,13 @@ public class Tab2Controller {
 		Currency current1 = getSelectedCurrency(currentName1);
 		Currency current2 = getSelectedCurrency(currentName2);
 
+		String possibleDate = findLastPossibleDate();
+		if (possibleDate.equals("")) {
+			possibleDate = cl.get(0).getDate();
+		}
 		// Getting current date
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDateTime now = LocalDateTime.now();
+		LocalDate now = LocalDate.parse(possibleDate, dtf);
 
 		// Getting time frame
 		LocalDate tempDate = LocalDate.parse(dtf.format(now));
@@ -99,6 +103,13 @@ public class Tab2Controller {
 		currencyChart.getData().addAll(series1, series2);
 		currencyChart.getXAxis().setAnimated(false);
 		currencyChart.getXAxis().lookup(".axis-label").setStyle("-fx-label-padding: -10 0 0 0;");
+	}
+
+	private String findLastPossibleDate() {
+		for (Currency c : cl)
+			if (c.getCode().equals("USD"))
+				return c.getDate();
+		return "";
 	}
 
 }
