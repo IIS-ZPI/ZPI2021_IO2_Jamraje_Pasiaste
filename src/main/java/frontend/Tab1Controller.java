@@ -1,6 +1,5 @@
 package frontend;
 
-import backend.JsonParser.JsonParser;
 import backend.currencies.Currency;
 import backend.interfaces.implementations.DataManager;
 import javafx.collections.FXCollections;
@@ -23,7 +22,6 @@ import java.util.List;
 
 public class Tab1Controller {
 	@FXML
-	public Label test;
 	public ComboBox currencyList;
 	public ComboBox period;
 	public Label mediana;
@@ -37,8 +35,7 @@ public class Tab1Controller {
 	List<Currency> cl;
 
 	public void loadData() throws IOException, ParseException {
-		JsonParser j = new JsonParser();
-		cl = j.getAvailableCurrenciesList();
+		cl = dm.getAllCurrencies();
 		setCurrencyRates(cl);
 		setPeriods();
 	}
@@ -57,7 +54,7 @@ public class Tab1Controller {
 
 	private void setCurrencyRates(List<Currency> cl) {
 		ArrayList<String> names = new ArrayList<>();
-		for(Currency c : cl)
+		for (Currency c : cl)
 			names.add(c.getName());
 		currencyList.setItems(FXCollections.observableList(names));
 		currencyList.getSelectionModel().selectFirst();
@@ -66,7 +63,7 @@ public class Tab1Controller {
 	public void showData(MouseEvent mouseEvent) throws IOException, ParseException {
 		String currentName = (String) currencyList.getSelectionModel().getSelectedItem();
 		Currency current = null;
-		for(Currency c : cl) {
+		for (Currency c : cl) {
 			if (c.getName().equals(currentName)) {
 				current = c;
 				break;
@@ -81,7 +78,7 @@ public class Tab1Controller {
 		String timeFrame = (String) period.getSelectionModel().getSelectedItem();
 		String startDate;
 		LocalDate tempDate = LocalDate.parse(dtf.format(now));
-		switch(timeFrame){
+		switch (timeFrame) {
 			case "Tydzień":
 				tempDate = tempDate.minusDays(7);
 				break;
@@ -115,7 +112,7 @@ public class Tab1Controller {
 		currencyChart.getData().clear();
 		XYChart.Series<String, Double> series = new XYChart.Series<>();
 		for (Currency curr : c)
-			series.getData().add(new XYChart.Data<>(curr.getDate(), Double.parseDouble(curr.getValue())));
+			series.getData().add(new XYChart.Data<>(curr.getDate(), curr.getValueAsDouble()));
 		series.setName(c.get(0).getName());
 		currencyChart.getData().addAll(series);
 		currencyChart.getXAxis().setAnimated(false);
@@ -123,55 +120,76 @@ public class Tab1Controller {
 	}
 
 	private void setZmiennosci(List<Currency> c) {
-		double sum = 0.0;
-		for (Currency curr : c)
-			sum+=Double.parseDouble(curr.getValue());
-		zmiennosci.setText(String.valueOf(Double.parseDouble(odchylenie.getText())/(sum/c.size())));
+		try {
+			double sum = 0.0;
+			for (Currency curr : c)
+				sum += curr.getValueAsDouble();
+			zmiennosci.setText(String.valueOf(Double.parseDouble(odchylenie.getText()) / (sum / c.size())));
+		} catch (Exception e) {
+			System.out.println("Something is wrong with data");
+			zmiennosci.setText("Corrupted data");
+		}
 	}
 
 	private void setOdchylenie(List<Currency> c) {
-		ArrayList<Double> sDList = new ArrayList<>();
-		for (Currency curr : c)
-			sDList.add(Double.valueOf(curr.getValue()));
-		double sum = 0.0, standard_deviation = 0.0;
-		int array_length = sDList.size();
-		for(double temp : sDList) {
-			sum += temp;
+		try {
+			ArrayList<Double> sDList = new ArrayList<>();
+			for (Currency curr : c)
+				sDList.add(curr.getValueAsDouble());
+			double sum = 0.0, standard_deviation = 0.0;
+			int array_length = sDList.size();
+			for (double temp : sDList) {
+				sum += temp;
+			}
+			double mean = sum / array_length;
+			for (double temp : sDList) {
+				standard_deviation += Math.pow(temp - mean, 2);
+			}
+			odchylenie.setText(String.valueOf(Math.sqrt(standard_deviation / array_length)));
+		} catch (Exception e) {
+			System.out.println("Something is wrong with data");
+			odchylenie.setText("Corrupted data");
 		}
-		double mean = sum/array_length;
-		for(double temp: sDList) {
-			standard_deviation += Math.pow(temp - mean, 2);
-		}
-		odchylenie.setText(String.valueOf(Math.sqrt(standard_deviation/array_length)));
 	}
 
 	private void setDominanta(List<Currency> c) {
-		ArrayList<Double> modeList = new ArrayList<>();
-		for (Currency curr : c)
-			modeList.add(Double.valueOf(curr.getValue()));
-		int maxCount = 0;
-		Double maxValue = 0.0;
-		for (int i=0;i<modeList.size();i++){
-			int count = 0;
-			for (Double aDouble : modeList) {
-				if (aDouble.equals(modeList.get(i)))
-					++count;
+		try {
+			ArrayList<Double> modeList = new ArrayList<>();
+			for (Currency curr : c)
+				modeList.add(curr.getValueAsDouble());
+			int maxCount = 0;
+			Double maxValue = 0.0;
+			for (int i = 0; i < modeList.size(); i++) {
+				int count = 0;
+				for (Double aDouble : modeList) {
+					if (aDouble.equals(modeList.get(i)))
+						++count;
+				}
+				if (count > maxCount) {
+					maxCount = count;
+					maxValue = modeList.get(i);
+				}
 			}
-			if (count > maxCount) {
-				maxCount = count;
-				maxValue = modeList.get(i);
-			}
+			dominanta.setText(String.valueOf(maxValue));
+		} catch (Exception e) {
+			System.out.println("Something is wrong with data");
+			dominanta.setText("Corrupted data");
 		}
-		dominanta.setText(String.valueOf(maxValue));
 
 	}
 
 	private void setMediana(List<Currency> c) {
 		ArrayList<Double> medianList = new ArrayList<>();
 		for (Currency curr : c)
-			medianList.add(Double.valueOf(curr.getValue()));
+			medianList.add(curr.getValueAsDouble());
 		Collections.sort(medianList);
-		Double middle = (medianList.get(medianList.size()/2) + medianList.get(medianList.size()/2 - 1))/2;
-		mediana.setText(String.valueOf(middle));
+		try {
+			Double middle = (medianList.get(medianList.size() / 2) + medianList.get(medianList.size() / 2 - 1)) / 2;
+			mediana.setText(String.valueOf(middle));
+		} catch (Exception e) {
+			System.out.println("Something is wrong with data");
+			mediana.setText("Corrupted data");
+		}
+
 	}
 }

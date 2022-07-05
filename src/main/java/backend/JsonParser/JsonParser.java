@@ -6,7 +6,6 @@ import backend.currencies.Currency;
 import com.jcabi.http.response.JsonResponse;
 
 import javax.json.JsonArray;
-import javax.json.JsonObject;
 import javax.json.JsonValue;
 
 import java.io.IOException;
@@ -22,22 +21,22 @@ public class JsonParser {
 	private final static List<String> tables = List.of("http://api.nbp.pl/api/exchangerates/tables/A?format=json", "http://api.nbp.pl/api/exchangerates/tables/B?format=json");
 	private final static String rates = "http://api.nbp.pl/api/exchangerates/rates/";
 
-	public String getCurrency(JsonResponse response) {
+//	public String getCurrency(JsonResponse response) {
+//
+//		return response.json().readArray().toString();
+//	}
 
-		return response.json().readArray().toString();
-	}
-
-	public JsonObject getJsonObject(JsonResponse response) {
-		return response.json().readObject();
-	}
-
-	public JsonObject getJsonObject(JsonArray response, int index) {
-		return response.getJsonObject(index);
-	}
-
-	public JsonArray getJsonArray(JsonResponse response) {
-		return response.json().readArray();
-	}
+//	public JsonObject getJsonObject(JsonResponse response) {
+//		return response.json().readObject();
+//	}
+//
+//	public JsonObject getJsonObject(JsonArray response, int index) {
+//		return response.getJsonObject(index);
+//	}
+//
+//	public JsonArray getJsonArray(JsonResponse response) {
+//		return response.json().readArray();
+//	}
 
 	public List<Currency> getAvailableCurrenciesList() throws IOException, ParseException {
 		ArrayList<Currency> currencyList = new ArrayList<>();

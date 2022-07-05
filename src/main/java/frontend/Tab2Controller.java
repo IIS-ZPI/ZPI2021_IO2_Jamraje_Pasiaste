@@ -1,6 +1,5 @@
 package frontend;
 
-import backend.JsonParser.JsonParser;
 import backend.currencies.Currency;
 import backend.interfaces.implementations.DataManager;
 import javafx.collections.FXCollections;
@@ -33,8 +32,7 @@ public class Tab2Controller {
 	final DataManager dm = new DataManager();
 
 	public void loadData() throws IOException, ParseException {
-		JsonParser j = new JsonParser();
-		cl = j.getAvailableCurrenciesList();
+		cl = dm.getAllCurrencies();
 		setCurrencyRates(cl);
 	}
 
@@ -93,9 +91,9 @@ public class Tab2Controller {
 		XYChart.Series<String, Double> series1 = new XYChart.Series<>();
 		XYChart.Series<String, Double> series2 = new XYChart.Series<>();
 		for (Currency curr : c1)
-			series1.getData().add(new XYChart.Data<>(curr.getDate(), Double.parseDouble(curr.getValue())));
+			series1.getData().add(new XYChart.Data<>(curr.getDate(), curr.getValueAsDouble()));
 		for (Currency curr : c2)
-			series2.getData().add(new XYChart.Data<>(curr.getDate(), Double.parseDouble(curr.getValue())));
+			series2.getData().add(new XYChart.Data<>(curr.getDate(), curr.getValueAsDouble()));
 		series1.setName(c1.get(0).getName());
 		series2.setName(c2.get(0).getName());
 		currencyChart.getData().addAll(series1, series2);
