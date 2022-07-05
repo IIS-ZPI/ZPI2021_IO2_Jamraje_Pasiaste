@@ -12,8 +12,6 @@ public class MainApp extends Application {
 	public void start(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("hello-view.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 540, 754);
-//		HelloController helloController = fxmlLoader.getController();
-//		helloController.startTab1();
 		stage.setTitle("Bandicoot currency rates");
 		stage.setScene(scene);
 		stage.show();

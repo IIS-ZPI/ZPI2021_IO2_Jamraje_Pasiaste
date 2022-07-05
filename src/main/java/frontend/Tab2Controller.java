@@ -30,7 +30,7 @@ public class Tab2Controller {
 	public Button showDataButton2;
 	public LineChart<String, Double> currencyChart;
 	List<Currency> cl;
-	DataManager dm = new DataManager();
+	final DataManager dm = new DataManager();
 
 	public void loadData() throws IOException, ParseException {
 		JsonParser j = new JsonParser();
@@ -49,6 +49,10 @@ public class Tab2Controller {
 	}
 
 	public void showDataMonthly(MouseEvent mouseEvent) throws IOException, ParseException {
+		showData(1);
+	}
+
+	private void showData(int monthsToSubtract) throws IOException, ParseException {
 		String currentName1 = (String) currency1.getSelectionModel().getSelectedItem();
 		String currentName2 = (String) currency2.getSelectionModel().getSelectedItem();
 		Currency current1 = getSelectedCurrency(currentName1);
@@ -60,7 +64,7 @@ public class Tab2Controller {
 
 		// Getting time frame
 		LocalDate tempDate = LocalDate.parse(dtf.format(now));
-		tempDate = tempDate.minusMonths(1);
+		tempDate = tempDate.minusMonths(monthsToSubtract);
 		String startDate = tempDate.toString();
 
 		List<Currency> c1 = dm.getForPeriod(current1, startDate, dtf.format(now));
@@ -69,23 +73,7 @@ public class Tab2Controller {
 	}
 
 	public void showDataQuarterly(MouseEvent mouseEvent) throws IOException, ParseException {
-		String currentName1 = (String) currency1.getSelectionModel().getSelectedItem();
-		String currentName2 = (String) currency2.getSelectionModel().getSelectedItem();
-		Currency current1 = getSelectedCurrency(currentName1);
-		Currency current2 = getSelectedCurrency(currentName2);
-
-		// Getting current date
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		LocalDateTime now = LocalDateTime.now();
-
-		// Getting time frame
-		LocalDate tempDate = LocalDate.parse(dtf.format(now));
-		tempDate = tempDate.minusMonths(3);
-		String startDate = tempDate.toString();
-
-		List<Currency> c1 = dm.getForPeriod(current1, startDate, dtf.format(now));
-		List<Currency> c2 = dm.getForPeriod(current2, startDate, dtf.format(now));
-		fillTheChart(c1,c2);
+		showData(3);
 	}
 
 	public Currency getSelectedCurrency(String currentName){
@@ -102,12 +90,12 @@ public class Tab2Controller {
 
 	private void fillTheChart(List<Currency> c1, List<Currency> c2) {
 		currencyChart.getData().clear();
-		XYChart.Series<String, Double> series1 = new XYChart.Series<String, Double>();
-		XYChart.Series<String, Double> series2 = new XYChart.Series<String, Double>();
+		XYChart.Series<String, Double> series1 = new XYChart.Series<>();
+		XYChart.Series<String, Double> series2 = new XYChart.Series<>();
 		for (Currency curr : c1)
-			series1.getData().add(new XYChart.Data<String, Double>(curr.getDate(), Double.parseDouble(curr.getValue())));
+			series1.getData().add(new XYChart.Data<>(curr.getDate(), Double.parseDouble(curr.getValue())));
 		for (Currency curr : c2)
-			series2.getData().add(new XYChart.Data<String, Double>(curr.getDate(), Double.parseDouble(curr.getValue())));
+			series2.getData().add(new XYChart.Data<>(curr.getDate(), Double.parseDouble(curr.getValue())));
 		series1.setName(c1.get(0).getName());
 		series2.setName(c2.get(0).getName());
 		currencyChart.getData().addAll(series1, series2);

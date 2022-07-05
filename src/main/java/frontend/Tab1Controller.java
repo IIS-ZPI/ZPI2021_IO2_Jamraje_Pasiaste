@@ -33,7 +33,7 @@ public class Tab1Controller {
 	public Button showDataButton;
 	public LineChart<String, Double> currencyChart;
 
-	DataManager dm = new DataManager();
+	final DataManager dm = new DataManager();
 	List<Currency> cl;
 
 	public void loadData() throws IOException, ParseException {
@@ -113,9 +113,9 @@ public class Tab1Controller {
 
 	private void fillTheChart(List<Currency> c) {
 		currencyChart.getData().clear();
-		XYChart.Series<String, Double> series = new XYChart.Series<String, Double>();
+		XYChart.Series<String, Double> series = new XYChart.Series<>();
 		for (Currency curr : c)
-			series.getData().add(new XYChart.Data<String, Double>(curr.getDate(),Double.parseDouble(curr.getValue())));
+			series.getData().add(new XYChart.Data<>(curr.getDate(), Double.parseDouble(curr.getValue())));
 		series.setName(c.get(0).getName());
 		currencyChart.getData().addAll(series);
 		currencyChart.getXAxis().setAnimated(false);
@@ -123,7 +123,7 @@ public class Tab1Controller {
 	}
 
 	private void setZmiennosci(List<Currency> c) {
-		Double sum = 0.0;
+		double sum = 0.0;
 		for (Currency curr : c)
 			sum+=Double.parseDouble(curr.getValue());
 		zmiennosci.setText(String.valueOf(Double.parseDouble(odchylenie.getText())/(sum/c.size())));
@@ -153,8 +153,8 @@ public class Tab1Controller {
 		Double maxValue = 0.0;
 		for (int i=0;i<modeList.size();i++){
 			int count = 0;
-			for (int j = 0; j < modeList.size(); ++j) {
-				if (modeList.get(j).equals(modeList.get(i)))
+			for (Double aDouble : modeList) {
+				if (aDouble.equals(modeList.get(i)))
 					++count;
 			}
 			if (count > maxCount) {

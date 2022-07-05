@@ -16,12 +16,4 @@ public class Currency {
 	private Double valueAsDouble;
 	private Date dateAsDateObject;
 
-	//Its not needed you can use "copy constructor through builder -> Object.toBuilder.build();
-//	public Currency(Currency currency) {
-//		table = currency.getTable();
-//		name = currency.getName();
-//		code = currency.getCode();
-//		value = currency.getValue();
-//		date = currency.getDate();
-//	}
 }
