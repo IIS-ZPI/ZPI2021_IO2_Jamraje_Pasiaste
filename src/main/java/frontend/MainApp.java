@@ -13,6 +13,7 @@ public class MainApp extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("hello-view.fxml"));
 		Scene scene = new Scene(fxmlLoader.load(), 540, 754);
 		stage.setTitle("Bandicoot currency rates");
+		stage.setResizable(false);
 		stage.setScene(scene);
 		stage.show();
 	}
