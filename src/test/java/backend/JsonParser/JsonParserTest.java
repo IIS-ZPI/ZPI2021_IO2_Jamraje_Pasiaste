@@ -4,6 +4,7 @@ import backend.currencies.Currency;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.json.stream.JsonParsingException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,8 +17,9 @@ class JsonParserTest {
     JsonParser testParser;
     Currency mockCurrency;
     String startDate;
-    String endDate;
+    String faultyDate;
     LocalDateTime now;
+    String correctDate;
 
     @BeforeEach
     void setUp() throws ParseException {
@@ -33,21 +35,34 @@ class JsonParserTest {
                 .dateAsDateObject(new SimpleDateFormat("yyyy-MM-dd").parse("2022-07-05"))
                 .build();
         startDate = now.minusDays(6).toString().substring(0,10);
-        endDate = now.plusDays(1).toString().substring(0,10);
+        faultyDate = now.plusDays(1).toString().substring(0,10);
+        correctDate = "2022-07-05";
     }
 
 
     @Test
-    void getCurrencyDataFromDateRange_TestForFutureDate() throws IOException, ParseException {
-
-        List<Currency> result = testParser.getCurrencyDataFromDateRange(mockCurrency, startDate, endDate);
-        assertEquals(5, result.size());
+    void getCurrencyDataFromDateRange_TestForFutureDate() {
+        assertThrows(JsonParsingException.class,
+                ()-> testParser.getCurrencyDataFromDateRange(mockCurrency, startDate, faultyDate));
 
     }
 
     @Test
-    void getSingleDateData_TestForFutureDate() throws IOException, ParseException {
-        Currency result = testParser.getSingleDateData(mockCurrency, endDate);
-        assertNotNull(result);
+    void getSingleDateData_TestForFutureDate() {
+        assertThrows(JsonParsingException.class,
+                ()-> testParser.getSingleDateData(mockCurrency, faultyDate));
+    }
+
+    @Test
+    void getSingleDateData_TestForCorrectDate() throws IOException, ParseException {
+        correctDate = "2022-07-05";
+        Currency result = testParser.getSingleDateData(mockCurrency, correctDate);
+        assertEquals(result, mockCurrency);
+    }
+
+    @Test
+    void getCurrencyDataFromDateRange_TestForCorrectListSize() throws IOException, ParseException {
+        List<Currency> result = testParser.getCurrencyDataFromDateRange(mockCurrency, correctDate, correctDate);
+        assertEquals(1, result.size());
     }
 }
