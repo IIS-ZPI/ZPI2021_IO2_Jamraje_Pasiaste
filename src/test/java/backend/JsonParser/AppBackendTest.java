@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class JsonParserTest {
+class AppBackendTest {
     JsonParser testParser;
     Currency mockCurrency;
     String startDate;
