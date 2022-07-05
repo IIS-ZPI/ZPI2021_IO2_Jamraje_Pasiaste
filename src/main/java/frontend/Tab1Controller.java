@@ -184,8 +184,13 @@ public class Tab1Controller {
 			medianList.add(curr.getValueAsDouble());
 		Collections.sort(medianList);
 		try {
-			Double middle = (medianList.get(medianList.size() / 2) + medianList.get(medianList.size() / 2 - 1)) / 2;
-			mediana.setText(String.valueOf(middle));
+			if(medianList.size() == 1)
+				mediana.setText(String.valueOf(medianList.get(0)));
+			else{
+				Double middle = (medianList.get(medianList.size() / 2) + medianList.get(medianList.size() / 2 - 1)) / 2;
+				mediana.setText(String.valueOf(middle));
+			}
+
 		} catch (Exception e) {
 			System.out.println("Something is wrong with data");
 			mediana.setText("Corrupted data");
