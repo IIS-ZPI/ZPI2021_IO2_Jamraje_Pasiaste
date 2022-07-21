@@ -23,13 +23,13 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '17'
-        distribution: 'temurin'
+        distribution: adopt # zulu, temurin
         cache: maven
-    - name: MAven Compile
+    - name: Maven Compile
       run: mvn compile
       
   test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     steps:
     - uses: actions/checkout@v3
@@ -37,7 +37,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '17'
-        distribution: 'temurin'
+        distribution: adopt # zulu, temurin
         cache: maven
     - name: Maven Compile
       run: mvn compile
