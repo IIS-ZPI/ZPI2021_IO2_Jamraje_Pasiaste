@@ -6,16 +6,10 @@ name: Java CI with Maven
 on:
   push:
     branches: 
-    - main
-    - release
-    - develop
-    - feature
+    - NBP_release
   pull_request:
     branches: 
-    - main
-    - release
-    - develop
-    - feature
+    - NBP_release
   workflow_dispatch:
 
 jobs:
