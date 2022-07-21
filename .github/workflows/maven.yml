@@ -25,6 +25,8 @@ jobs:
         java-version: '17'
         distribution: adopt # zulu, temurin
         cache: maven
+    - name: Maven Install
+      run: mvn install
     - name: Maven Compile
       run: mvn compile
       
@@ -39,6 +41,8 @@ jobs:
         java-version: '17'
         distribution: adopt # zulu, temurin
         cache: maven
+    - name: Maven Install
+      run: mvn install
     - name: Maven Compile
       run: mvn compile
     - name: Maven Test
